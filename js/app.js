@@ -4,7 +4,7 @@ console.log('Are we live?');
 
 // ************** Global Variables ***************
 
-let voteCount = 10;
+let voteCount = 25;
 let allProducts = [];
 
 // ************** DOM References *****************
