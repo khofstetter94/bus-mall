@@ -15,11 +15,14 @@ let imgTwo = document.getElementById('img-two');
 let imgThree = document.getElementById('img-three');
 
 let viewResultsBtn = document.getElementById('view-results-btn');
-let resultsList = document.getElementById('results-list');
+
+// ************** Canvas Reference ***************
+
+let ctx = document.getElementById('my-chart').getContext('2d');
 
 // ************** Constructor ********************
 
-function Product(name, fileExtension = 'jpg'){
+function Product(name, fileExtension = 'jpg') {
   this.name = name;
   this.views = 0;
   this.votes = 0;
@@ -54,17 +57,17 @@ new Product('wine-glass');
 // thewebdev.info -  if (arr.indexOf(r) === -1) {
 //                      arr.push(r);
 
-function renderImages(){
-  let possibleIndex = [];
-  while(possibleIndex.length < 3){
-    let i = Math.floor(Math.random()*allProducts.length);
-    if (possibleIndex.indexOf(i) === -1){
-      possibleIndex.push(i);
+let possibleIndex = [];
+function renderImages() {
+  while (possibleIndex.length < 6) {
+    let i = Math.floor(Math.random() * allProducts.length);
+    if (possibleIndex.indexOf(i) === -1) {
+      possibleIndex.splice(0, 0, i);
     }
   }
-  let productOneIndex = possibleIndex[0];
-  let productTwoIndex = possibleIndex[1];
-  let productThreeIndex = possibleIndex[2];
+  let productOneIndex = possibleIndex.pop();
+  let productTwoIndex = possibleIndex.pop();
+  let productThreeIndex = possibleIndex.pop();
 
   imgOne.src = allProducts[productOneIndex].photo;
   imgOne.alt = allProducts[productOneIndex].name;
@@ -81,33 +84,100 @@ function renderImages(){
 
 renderImages();
 
+// ************** Function Render Chart **********
+
+function renderChart() {
+  let products = [];
+  let votes = [];
+  let views = [];
+  for(let i = 0; i < allProducts.length; i++){
+    products.push(allProducts[i].name);
+    votes.push(allProducts[i].votes);
+    views.push(allProducts[i].views);
+  }
+
+  let myChartObject = {
+    type: 'bar',
+    data: {
+      labels: products,
+      datasets: [{
+        label: '# of Votes',
+        data: votes,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.7)',
+          'rgba(54, 162, 235, 0.7)',
+          'rgba(255, 206, 86, 0.7)',
+          'rgba(75, 192, 192, 0.7)',
+          'rgba(153, 102, 255, 0.7)',
+          'rgba(255, 159, 64, 0.7)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      },
+      {
+        label: '# of Views',
+        data: views,
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.2)',
+          'rgba(54, 162, 235, 0.2)',
+          'rgba(255, 206, 86, 0.2)',
+          'rgba(75, 192, 192, 0.2)',
+          'rgba(153, 102, 255, 0.2)',
+          'rgba(255, 159, 64, 0.2)'
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+          'rgba(255, 159, 64, 1)'
+        ],
+        borderWidth: 1
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  };
+  new Chart(ctx, myChartObject);
+}
+
 // ************** Event Handlers *****************
 
-function handleClick(event){
+function handleClick(event) {
   voteCount--;
 
   let imgClicked = event.target.alt;
 
-  for(let i = 0; i < allProducts.length; i++){
-    if(imgClicked === allProducts[i].name){
+  for (let i = 0; i < allProducts.length; i++) {
+    if (imgClicked === allProducts[i].name) {
       allProducts[i].votes++;
     }
   }
 
   renderImages();
 
-  if(voteCount === 0){
+  if (voteCount === 0) {
     imgContainer.removeEventListener('click', handleClick);
   }
 }
 
-function handleViewResults(){
-  if(voteCount === 0){
-    for(let i = 0; i <allProducts.length; i++){
-      let liElem = document.createElement('li');
-      liElem.textContent = `${allProducts[i].name} was shown ${allProducts[i].views} time(s) and voted for ${allProducts[i].votes} time(s).`;
-      resultsList.appendChild(liElem);
-    }
+function handleViewResults() {
+  if (voteCount === 0) {
+    renderChart();
+    viewResultsBtn.removeEventListener('click', handleViewResults);
   }
 }
 
