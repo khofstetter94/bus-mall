@@ -19,6 +19,8 @@ img {
 }
 
 #view-results-btn {
+  margin-left: 850px;
+  margin-right: 850px;
   text-align: center;
   border: 10px solid #32746D;
   margin-top: 30px;
