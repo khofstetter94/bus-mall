@@ -14,17 +14,25 @@ section {
   justify-content: space-around;
 }
 img {
-  max-height: 500px;
+  display: block;
+  max-height: 300px;
   border: 10px solid #32746D;
 }
 
+div {
+  margin: auto;
+  display: block;
+  width: 50%;
+}
+
 #view-results-btn {
-  margin-left: 850px;
-  margin-right: 850px;
+  width: fit-content;
+  padding-left: 10px;
+  padding-right: 10px;
   text-align: center;
-  border: 10px solid #32746D;
+  border: 5px solid #32746D;
   margin-top: 30px;
-  font-size: 60px;
+  font-size: 40px;
   color: #9EC5AB;
   font-family: 'Dosis', sans-serif;
 }
