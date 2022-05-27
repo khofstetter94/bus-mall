@@ -1,1 +1,3 @@
 # bus-mall
+
+Welcome to Bus Mall! In our efforts to supply the best in transit shopping experience, we put together this voting tool to narrow down the options, so that we only deliver the most popular products! You will be presented with 3 randomly generated products at a time, vote on which one you would most likely purchase, and continue doing so for a total of 25 votes. As soon as you're unable to keep voting, press the "view results" button to see a bar chart visual of each item's total vote count and how often it was viewed! The results are saved into storage and will continue to increase as new guests visit the page. Thank you for your contribution!
